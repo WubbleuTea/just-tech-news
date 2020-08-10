@@ -62,15 +62,15 @@ router.post('/login', (req, res) => {
         }
     }).then(dbUserData => {
         if (!dbUserData) {
-            res.status(400).json({ message: 'No user with that email address'});
+            res.status(400).json({ message: 'No user with that email address' });
             return;
         }
 
         res.json({ user: dbUserData })
 
         // Verify User
-    })
-})
+    });
+});
 
 // PUT /api/users/1
 router.put('/:id', (req,res) => {
