@@ -52,25 +52,25 @@ router.post('/', (req,res) => {
         res.status(500).json(err)
     });
 });
-// // this is for login
-// router.post('/login', (req, res) => {
-//     //Query operation
-//     // expects {email: 'lernantino@gmail.com', password: 'password1234'}
-//     User.findOne({
-//         where: {
-//             email: req.body.email
-//         }
-//     }).then(dbUserData => {
-//         if (!dbUserData) {
-//             res.status(400).json({ message: 'No user with that email address'});
-//             return;
-//         }
+// this is for login
+router.post('/login', (req, res) => {
+    //Query operation
+    // expects {email: 'lernantino@gmail.com', password: 'password1234'}
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'No user with that email address'});
+            return;
+        }
 
-//         res.json({ user: dbUserData })
+        res.json({ user: dbUserData })
 
-//         // Verify User
-//     })
-// })
+        // Verify User
+    })
+})
 
 // PUT /api/users/1
 router.put('/:id', (req,res) => {
