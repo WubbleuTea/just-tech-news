@@ -61,14 +61,15 @@ router.post('/login', (req, res) => {
             email: req.body.email
         }
     }).then(dbUserData => {
-        if (!dbUserData) {
-            res.status(400).json({ message: 'No user with that email address' });
+        //goes into the class and runs the checkPassword function
+        const validPassword = dbUserData.checkPassword(req.body.password);
+
+        if(!validPassword) {
+            res.status(400).json({ message: 'Incorrect Password!' });
             return;
         }
 
-        res.json({ user: dbUserData })
-
-        // Verify User
+        res.json({ user: dbUserData, message: 'You are now logged in!' });
     });
 });
 
