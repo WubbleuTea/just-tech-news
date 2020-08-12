@@ -13,6 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // turn on connection to b and server
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log('Now listening'))
 });
