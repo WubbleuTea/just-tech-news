@@ -38,16 +38,8 @@ router.get('/', (req, res) => {
         });
 });
 
-module.exports = router;
+router.get('/login', (req, res) => {
+    res.render('login');
+});
 
-// res.render('homepage', {
-//     id: 1,
-//     post_url: 'https://handlebarsjs.com/guide/',
-//     title: 'Handlebars Docs',
-//     created_at: new Date(),
-//     vot_count: 10,
-//     comments: [{}, {}],
-//     user: {
-//         username: 'test_user'
-//     }
-// });
+module.exports = router;
