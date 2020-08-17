@@ -50,7 +50,7 @@ router.get('/:id', (req,res) => {
     })
     .then(dbUserData => {
         if (!dbUserData) {
-            res.status(404).jason({ message: 'No user found with this id' });
+            res.status(404).json({ message: 'No user found with this id' });
             return;
         }
         res.json(dbUserData);
@@ -69,7 +69,15 @@ router.post('/', (req,res) => {
         email: req.body.email,
         password: req.body.password
     })
-    .then(dbUserData => res.json(dbUserData))
+    .then(dbUserData => {
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json(dbUserData);
+        });
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err)
@@ -84,17 +92,38 @@ router.post('/login', (req, res) => {
             email: req.body.email
         }
     }).then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'No user with that email address!'})
+        }
         //goes into the class and runs the checkPassword function
         const validPassword = dbUserData.checkPassword(req.body.password);
 
-        if(!validPassword) {
+        if (!validPassword) {
             res.status(400).json({ message: 'Incorrect Password!' });
             return;
         }
 
-        res.json({ user: dbUserData, message: 'You are now logged in!' });
+        req.session.save(() => {
+            // declare session variables
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json({ user: dbUserData, message: 'You are now logged in!' });
+        });
     });
 });
+
+// log-out
+router.post('/logout', (req, res) => {
+    if (req.session.loggedIn) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        })
+    } else {
+        res.status(404).end();
+    }
+})
 
 // PUT /api/users/1
 router.put('/:id', (req,res) => {
