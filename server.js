@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3001;
 const sequelize = require('./config/connection');
 // import handlebars
 const exphbs = require('express-handlebars');
+// helpers runs the helpers in the handlebars (without it the helpers cant run)
 const hbs = exphbs.create({ helpers });
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
