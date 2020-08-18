@@ -15,6 +15,7 @@
         <a href="/">Just Tech News</a>
       </h1>
       <nav>
+        {{!-- This and the script checks if logged in using the home-routes res.render in the  .get('/') --}}
         {{#if loggedIn}}
         <button id="logout" class="btn-no-style">logout</button>
         {{else}}

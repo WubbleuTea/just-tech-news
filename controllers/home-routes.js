@@ -33,6 +33,7 @@ router.get('/', (req, res) => {
             // have to use the .get because the data comes back as a sequelize object
             res.render('homepage', { 
                 posts, 
+                // tells the home page if we are logged in for the if statements(logout button and logic)
                 loggedIn: req.session.loggedIn
             });
         })
