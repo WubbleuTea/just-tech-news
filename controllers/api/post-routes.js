@@ -97,14 +97,16 @@ router.post('/', (req, res) => {
 
 //PUT /api/posts/upvote (updates votes on a post)
 router.put('/upvote', (req, res) => {
-    // custom static method created in models/Post.js
-    Post.upvote(req.body, { Vote })
-    .then(dbPostData => res.json(dbPostData))
-    .catch(err => {
-        console.log(err);
-        res.status(400).json(err)
-    });
-})
+    if (req.session) {
+        // custom static method created in models/Post.js
+        Post.upvote({ ...req.body, user_id: req.session.user_id}, { Vote })
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err)
+        });
+    }
+});
 
 // update the title
 router.put('/:id', (req, res) => {
