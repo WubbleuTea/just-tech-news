@@ -31,7 +31,10 @@ router.get('/', (req, res) => {
             const posts = dbPostData.map(post => post.get({ plain: true }));
             //pass a single post object into the homepage template
             // have to use the .get because the data comes back as a sequelize object
-            res.render('homepage', { posts });
+            res.render('homepage', { 
+                posts, 
+                loggedIn: req.session.loggedIn
+            });
         })
         .catch(err => {
             console.log(err);
@@ -85,17 +88,17 @@ router.get('/post/:id', (req, res) => {
         const post = dbPostData.get({ plain: true });
 
         //pass data to template
-        res.render('single-post', {post} );
+        res.render('single-post', {
+            post,
+            loggedIn: req.session.loggedIn
+        });
     })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
     });
 
-    res.render('single-post', {
-        post,
-        loggedIn: req.session.loggedIn
-    });
+
 });
 
 module.exports = router;
