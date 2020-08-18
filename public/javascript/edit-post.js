@@ -1,10 +1,10 @@
 async function editFormHandler(event) {
     event.preventDefault();
-
+    // gets the id from the url
     const id = window.location.toString().split('/')[
         window.location.toString().split('/').length - 1
     ]
-
+    // get the title from the name input
     const title = document.querySelector('input[name="post-title"]').value;
 
     const response = await fetch(`/api/posts/${id}`, {
